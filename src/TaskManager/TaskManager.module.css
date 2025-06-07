@@ -1,0 +1,209 @@
+@import url("https://fonts.googleapis.com/css2?family=Forum&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  background-color: #f8f8e1;
+  font-family: "Sour Gummy";
+  cursor: pointer;
+}
+.form {
+  width: 100%;
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 20px;
+  /* border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+/* Day section */
+.date {
+  margin-bottom: 20px;
+  background-color: #8accd5;
+  width: 200px;
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  color: #0d5252;
+}
+/* Tag Section */
+.tags {
+  margin-bottom: 20px;
+  background-color: #ffc1da;
+  height: 80px;
+  color: #530925;
+}
+
+.tags label {
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.tags input[type="radio"] {
+  margin-top: 25px;
+  accent-color: #ea2a74;
+}
+/* TaskManager.module.css */
+
+.title input:focus {
+  border: 2px solid #8accd5; /* green border on focus */
+  outline: none;
+}
+.description textarea:focus {
+  border: 2px solid #ff90bb; /* green border on focus */
+  outline: none;
+}
+.day select:focus {
+  border: 2px solid #ffc1da; /* green border on focus */
+  outline: none;
+}
+
+/* Title Section */
+.title {
+  margin-bottom: 20px;
+  background-color: #8accd5;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #0d5252;
+}
+
+.title label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.title input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  height: 50px;
+}
+
+/* Description Section */
+.description {
+  margin-bottom: 20px;
+  background-color: #ff90bb;
+  display: flex;
+  flex-direction: column;
+  color: #530925;
+}
+
+.description label {
+  display: block;
+  margin-bottom: 6px;
+
+  font-weight: 500;
+}
+
+.description textarea {
+  margin-top: 10px;
+  height: 80px;
+  width: 100%;
+  padding: 8px;
+  resize: vertical;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Button */
+.btnDiv {
+  display: flex;
+  justify-content: end;
+}
+.button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background-color: #ff4e88;
+  border: none;
+  color: white;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Sour Gummy";
+}
+
+.button:hover {
+  background-color: #aa0a5f;
+}
+
+/* For the Task list */
+
+.taskContainer {
+  width: 50%; /* Increase from 100% of parent with max-width */
+
+  height: auto; /* Let it grow with content (or set fixed height) */
+
+  border: 1px solid #ff4e88; /* Light border around each task */
+  padding: 15px 20px; /* Some inner spacing */
+
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f9f9f9; /* Soft background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* subtle shadow */
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  margin-bottom: 15px; /* Space between tasks */
+}
+.tagContainer {
+  display: flex;
+
+  gap: 100px;
+}
+
+.tag {
+  margin: 0 0 8px 5px;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.taskContainer h3 {
+  margin: 0 0 6px 0;
+  color: #34495e;
+  font-size: 1.2rem;
+}
+
+.taskContainer h4 {
+  margin: 0;
+  color: #7f8c8d;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.tagDiv {
+  display: flex;
+  font-size: 30px;
+}
+.icons {
+  display: flex;
+  gap: 5px;
+  font-size: 30px;
+}
+.icons span {
+  font-size: 40px;
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+/* For date */
+.todayDate {
+  margin-left: 85%;
+}
+
+.duration {
+  display: flex;
+  gap: 20px;
+}
+.alert {
+  color: red;
+  background: #ffe0e0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width:200px;
+}
