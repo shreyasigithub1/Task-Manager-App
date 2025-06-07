@@ -1,3 +1,6 @@
+import { auth, provider } from "../firebaseInit";
+import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+
 import { useState, useRef, useEffect } from "react";
 import styles from "./TaskManager.module.css";
 import { db } from "../firebaseInit";
@@ -15,6 +18,8 @@ export default function TaskManager() {
   const [updateIndex, setUpdateIndex] = useState(null);
   const [willUpdate, setWillUpdate] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [user, setUser] = useState(null);
+  const [showSignInBox, setShowSignInBox] = useState(false);
 
   let [formData, setFormData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -38,12 +43,13 @@ export default function TaskManager() {
   //Real-time data
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "tasks"), (snapshot) => {
-      console.log(snapshot);//QuerySnapshot
-      const taskArray = snapshot.docs.map((doc) => ({ //doc is QueryDocumentSnapshot
+      console.log(snapshot); //QuerySnapshot
+      const taskArray = snapshot.docs.map((doc) => ({
+        //doc is QueryDocumentSnapshot
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(taskArray);//taskArray is array of objects
+      console.log(taskArray); //taskArray is array of objects
       setTaskArray(taskArray);
     });
 
@@ -61,10 +67,30 @@ export default function TaskManager() {
       return "No duration added";
     return null;
   }
+  //Detect AuthState on mount
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  //create reusable login function
+  const promptSignIn = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      console.error("Sign-in failed", err);
+    }
+  };
 
   //Function submit the form
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!user) {
+      setShowSignInBox(true);
+      return;
+    }
     setWillUpdate(false);
 
     const error = validateForm(formData);
@@ -97,12 +123,20 @@ export default function TaskManager() {
   }
   //Function to delete task
   async function handleDelete(index) {
+    if (!user) {
+      setShowSignInBox(true);
+      return;
+    }
     const taskId = taskArray[index].id; // get the Firestore document ID
     await deleteDoc(doc(db, "tasks", taskId));
   }
 
   //Function to update task
   async function handleUpdate(index) {
+    if (!user) {
+      setShowSignInBox(true);
+      return;
+    }
     const task = taskArray[index];
     setFormData({ ...task }); //to prefil the input fields
 
@@ -114,6 +148,30 @@ export default function TaskManager() {
     <>
       {/* Today's date */}
       <p className={styles.todayDate}>Today is: {new Date().toDateString()}</p>
+      {/* Sign in wih google button */}
+      {!user && showSignInBox && (
+        <div className={styles.signInBox}>
+          <h2>Please sign in to continue</h2>
+          <button
+            onClick={() => {
+              promptSignIn();
+              setShowSignInBox(false);
+            }}
+          >
+            Sign in with Google
+          </button>
+        </div>
+      )}
+      {/* Sign-out button */}
+      {user && (
+        <div className={styles.userInfo}>
+          <p>Signed in as: {user.displayName}</p>
+          <button onClick={() => signOut(auth)} className={styles.signOutBtn}>
+            Sign Out
+          </button>
+        </div>
+      )}
+
       {/* For alert message */}
       {alertMessage && <div className={styles.alert}>{alertMessage}</div>}
 
@@ -173,7 +231,7 @@ export default function TaskManager() {
           <label htmlFor="title">Title</label>
           <input
             type="text"
-            placeholder="Title of the Task"
+            placeholder="Title of the task..."
             id="title"
             ref={inputRef}
             value={formData.title}
